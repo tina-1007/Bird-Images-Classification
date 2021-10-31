@@ -173,6 +173,7 @@ def train(args, model):
     val_loss = {'step': [], 'loss': []}
     train_acc  = {'step': [], 'acc': []}
     val_acc = {'step': [], 'acc': []}
+    avg_train_loss = 0
 
     while True:
         model.train()
@@ -204,6 +205,7 @@ def train(args, model):
             if args.gradient_accumulation_steps > 1:
                 loss = loss / args.gradient_accumulation_steps
             loss.backward()
+            avg_train_loss += loss.item()
 
             if (step + 1) % args.gradient_accumulation_steps == 0:
                 losses.update(loss.item()*args.gradient_accumulation_steps)
@@ -231,14 +233,15 @@ def train(args, model):
                     val_loss['step'].append(global_step)
                     val_loss['loss'].append(loss)
                     val_acc['step'].append(global_step)
-                    val_acc['acc'].append(val_acc)                    
+                    val_acc['acc'].append(accuracy)                    
 
                 if global_step % t_total == 0:
                     break
 
             if (global_step + 1) % 100 == 0:
                 train_loss['step'].append(global_step)
-                train_loss['loss'].append(loss.item())
+                train_loss['loss'].append(avg_train_loss/100)
+                avg_train_loss = 0
 
         all_preds, all_label = all_preds[0], all_label[0]
         accuracy = simple_accuracy(all_preds, all_label)
@@ -258,16 +261,16 @@ def train(args, model):
     logger.info("Total Training Time: \t%f" % ((end_time - start_time) / 3600))
 
     # plt.plot(2,1,1)
-    plt.plot(train_loss, label='training')
-    plt.plot(val_loss, label='validation')
+    plt.plot(train_loss['step'], train_loss['loss'], label='training')
+    plt.plot(val_loss['step'], val_loss['loss'], label='validation')
     plt.title('Loss')
     plt.legend(loc='upper left')
     plt.savefig('{}/Loss'.format(args.output_dir))
     plt.clf()
 
     # plt.plut(2,1,2)
-    plt.plot(train_acc, label='training')
-    plt.plot(val_acc, label='validation')
+    plt.plot(train_acc['step'], train_acc['acc'], label='training')
+    plt.plot(val_acc['step'], val_acc['acc'], label='validation')
     plt.title('Accuracy')
     plt.legend(loc='upper left')
     plt.savefig('{}/Acc'.format(args.output_dir))
@@ -277,9 +280,7 @@ def main():
     # Required parameters
     parser.add_argument("--name", required=True,
                         help="Name of this run. Used for monitoring.")
-    parser.add_argument("--dataset", choices=["CUB_200_2011", "car", "dog", "nabirds", "INat2017"], default="CUB_200_2011",
-                        help="Which dataset.")
-    parser.add_argument('--data_root', type=str, default='./Dataset/training_images')
+    parser.add_argument('--data_root', type=str, default='./dataset')
     parser.add_argument("--model_type", choices=["ViT-B_16", "ViT-B_32", "ViT-L_16",
                                                  "ViT-L_32", "ViT-H_14"],
                         default="ViT-B_16",
@@ -292,7 +293,7 @@ def main():
                         help="The output directory where checkpoints will be written.")
     parser.add_argument("--img_size", default=448, type=int,
                         help="Resolution size")
-    parser.add_argument("--train_batch_size", default=16, type=int,
+    parser.add_argument("--train_batch_size", default=4, type=int,
                         help="Total batch size for training.")
     parser.add_argument("--eval_batch_size", default=8, type=int,
                         help="Total batch size for eval.")
