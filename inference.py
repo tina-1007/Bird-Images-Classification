@@ -1,3 +1,4 @@
+
 import torch
 import numpy as np
 from PIL import Image
@@ -7,8 +8,6 @@ from models.modeling import VisionTransformer, CONFIGS
 import os
 from os.path import join
 
-dataset_dir = './Dataset'
-
 test_transform=transforms.Compose([transforms.Resize((600, 600), Image.BILINEAR),
                             transforms.CenterCrop((448, 448)),
                             transforms.ToTensor(),
@@ -16,7 +15,9 @@ test_transform=transforms.Compose([transforms.Resize((600, 600), Image.BILINEAR)
 
 parser = argparse.ArgumentParser()
 # Required parameters
-parser.add_argument("--name", required=True, help="Name of this run. Used for monitoring.")
+parser.add_argument("--name", required=True, 
+                    help="Name of this run. Used for monitoring.")
+parser.add_argument('--data_root', type=str, default='./dataset')
 parser.add_argument("--pretrained_dir", type=str, default="./pretrained_models/imagenet21k_ViT-B_16.npz",
                     help="Where to search for pretrained ViT models.")
 parser.add_argument("--pretrained_model", type=str, default='./checkpoints/test_checkpoint.bin', 
@@ -35,7 +36,7 @@ print('Use: {}'.format(device))
 
 # Create Classes List
 class_names = []
-class_file = open(join(dataset_dir,'classes.txt'))
+class_file = open(join(args.data_root,'classes.txt'))
 for line in class_file:
     class_names.append(line)
 print('{} classes.'.format(len(class_names)))
@@ -57,8 +58,8 @@ model.eval()
 
 print('Use pretrained model: {}'.format(args.pretrained_model))
 # Create Test Dataset
-annotations_file = './Dataset/testing_img_order.txt'
-img_dir = './Dataset/testing_images'
+annotations_file = join(args.data_root, 'testing_img_order.txt')
+img_dir = join(args.data_root, 'testing_images')
 
 # Set answer path
 result_dir = './result/{}'.format(args.name)
