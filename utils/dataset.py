@@ -1,9 +1,6 @@
 import torch
 from torch.utils.data import Dataset
-import numpy as np
 from PIL import Image
-import pandas as pd
-import matplotlib.pyplot as plt
 import os
 from os.path import join
 
