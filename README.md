@@ -1,6 +1,6 @@
 # Bird-Images-Classification
 
-In this homework, I apply [TranFG](https://github.com/TACJu/TransFG) on our task [2021 VRDL HW1](#). 
+In this homework, I apply [TranFG](https://github.com/TACJu/TransFG) on our task [2021 VRDL HW1](https://competitions.codalab.org/competitions/35668?secret_key=09789b13-35ec-4928-ac0f-6c86631dda07). 
 
 
 ## Installation
@@ -10,7 +10,7 @@ pip3 install -r requirements.txt
 ```
 
 ## Prepare data
-Download the dataset of this task from [here](https://competitions.codalab.org/competitions/35668?secret_key=09789b13-35ec-4928-ac0f-6c86631dda07#participate-get_starting_kit) and put the folders and `.txt` files in `dataset` folder. The structure will be like: 
+Download the dataset from CodaLab and put two folders and three `.txt` files in `dataset` folder. The structure will be like: 
 ```
 train.py
 ...
@@ -31,7 +31,7 @@ Get my trained model from [here](https://drive.google.com/file/d/1frwD4lEvk7e-xm
 ``` 
 python inference.py --name best
 ```
-The result will be generated in `/result/best/` or `/result/{name}/`
+The `answer.txt` will be generated in `/result/best/` or `/result/{name}/`
 
 ## Training
 #### 1. Download Google pre-trained ViT models
