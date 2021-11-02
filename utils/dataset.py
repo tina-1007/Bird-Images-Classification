@@ -4,14 +4,12 @@ from PIL import Image
 import os
 from os.path import join
 
+
 class CustomImageDataset(Dataset):
 
-    def default_loader(path):
-        return Image.open(path).convert('RGB')
-
-    def __init__(self, file_list, dir, transform=None, target_transform=None, loader=default_loader):
+    def __init__(self, file_list, dir, transform=None, target_transform=None):
         img_labels = []
-        img_dir = join(dir,'training_images')
+        img_dir = join(dir, 'training_images')
 
         for line in file_list:
             line = line.strip('\n')
@@ -22,7 +20,8 @@ class CustomImageDataset(Dataset):
         self.img_labels = img_labels
         self.transform = transform
         self.target_transform = target_transform
-        self.loader = loader
+        self.loader = Image.open(path).convert('RGB')
+
     def __len__(self):
         return len(self.img_labels)
 
