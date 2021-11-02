@@ -20,14 +20,13 @@ class CustomImageDataset(Dataset):
         self.img_labels = img_labels
         self.transform = transform
         self.target_transform = target_transform
-        self.loader = Image.open(path).convert('RGB')
 
     def __len__(self):
         return len(self.img_labels)
 
     def __getitem__(self, idx):
         img_path, label = self.img_labels[idx]
-        image = self.loader(img_path)
+        image = Image.open(img_path).convert('RGB')
         if self.transform:
             image = self.transform(image)
         if self.target_transform:
