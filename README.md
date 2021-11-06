@@ -1,6 +1,6 @@
 # Bird-Images-Classification
 
-In this homework, I apply [TransFG](https://github.com/TACJu/TransFG) on our task [2021 VRDL HW1](https://competitions.codalab.org/competitions/35668?secret_key=09789b13-35ec-4928-ac0f-6c86631dda07). 
+In this homework, I apply [TransFG](https://github.com/TACJu/TransFG) on the assignment [2021 VRDL HW1](https://competitions.codalab.org/competitions/35668?secret_key=09789b13-35ec-4928-ac0f-6c86631dda07). 
 
 
 ## Installation
