@@ -46,8 +46,7 @@ python train.py --name best
 
 ## Reference
 
-1. f
-2. sFG: A Transformer Architecture for Fine-grained Recognition
+1. TransFG: A Transformer Architecture for Fine-grained Recognition
     * [Paper](https://arxiv.org/abs/2103.07976)
     * [Github](https://github.com/TACJu/TransFG) (Official Code)
-3. Pytorch Official Totorial > Transfer Learning For Computer Vision Tutorial - [website](https://pytorch.org/tutorials/beginner/transfer_learning_tutorial.html) 
+2. Pytorch Official Totorial > Transfer Learning For Computer Vision Tutorial - [website](https://pytorch.org/tutorials/beginner/transfer_learning_tutorial.html) 
